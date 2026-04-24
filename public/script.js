@@ -2,12 +2,12 @@ const API = "https://loja-backend-jmci.onrender.com";
 
 let carrinho = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ================= NAV =================
+// NAV
 function goCart(){ location.href="cart.html"; }
 function goHome(){ location.href="index.html"; }
 function goCheckout(){ location.href="checkout.html"; }
 
-// ================= PRODUTOS =================
+// PRODUTOS
 const produtos = [
   {nome:"Tênis Nike", preco:199, imagem:"https://via.placeholder.com/300"},
   {nome:"Camisa Premium", preco:129, imagem:"https://via.placeholder.com/300"},
@@ -22,48 +22,48 @@ function renderProdutos(){
     div.innerHTML += `
       <div class="card">
         <img src="${p.imagem}">
-        <h3>${p.nome}</h3>
-        <p>R$ ${p.preco}</p>
+        <div class="card-body">
+          <h3>${p.nome}</h3>
+          <div class="price">R$ ${p.preco}</div>
 
-        <input type="number" id="qtd-${i}" value="1" min="1">
+          <input type="number" id="qtd-${i}" value="1" min="1">
 
-        <button class="btn" onclick="addToCart(${i})">
-          Comprar
-        </button>
+          <button class="btn" onclick="addToCart(${i})">
+            Comprar
+          </button>
+        </div>
       </div>
     `;
   });
 }
 
-// ================= CARRINHO =================
+// CARRINHO
 function addToCart(i){
   const qtd = parseInt(document.getElementById(`qtd-${i}`).value);
-
   carrinho.push({...produtos[i], qtd});
   localStorage.setItem("cart", JSON.stringify(carrinho));
-
-  alert("Adicionado ao carrinho");
+  alert("Adicionado!");
 }
 
 function renderCart(){
   const div = document.getElementById("cart");
   if(!div) return;
 
-  let total = 0;
+  let total=0;
   div.innerHTML="";
 
-  carrinho.forEach(p=>{
-    total += p.preco * p.qtd;
+  carrinho.forEach((p,i)=>{
+    total += p.preco*p.qtd;
 
     div.innerHTML += `
-      <p>${p.nome} (x${p.qtd}) - R$ ${p.preco * p.qtd}</p>
+      <p>${p.nome} x${p.qtd} - R$ ${p.preco*p.qtd}</p>
     `;
   });
 
   div.innerHTML += `<h3>Total: R$ ${total}</h3>`;
 }
 
-// ================= PIX =================
+// PIX
 async function pagarPix(){
   const total = carrinho.reduce((t,p)=>t+(p.preco*p.qtd),0);
   document.getElementById("total").innerText="R$ "+total;
@@ -78,9 +78,7 @@ async function pagarPix(){
 
   document.getElementById("pix").innerHTML = `
     <img src="data:image/png;base64,${data.qr}" width="250"/>
-
     <textarea id="pixCode">${data.copiaecola}</textarea>
-
     <button onclick="copiarPix()">Copiar PIX</button>
   `;
 }
@@ -91,7 +89,12 @@ function copiarPix(){
   alert("Copiado!");
 }
 
-// ================= INIT =================
+// SCROLL
+function scrollToProducts(){
+  document.getElementById("produtos").scrollIntoView({behavior:"smooth"});
+}
+
+// INIT
 window.onload=()=>{
   renderProdutos();
   renderCart();

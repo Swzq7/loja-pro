@@ -2,24 +2,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Minha Loja</title>
+<title>SWZQ Store</title>
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header>
-  <h2>Minha Loja</h2>
+<header class="navbar">
+  <h2 class="logo">SWZQ</h2>
   <button onclick="goCart()">Carrinho 🛒</button>
 </header>
 
-<div class="hero">
-  <h1>Nova Coleção</h1>
-  <p>Os melhores produtos com estilo</p>
-</div>
+<section class="hero">
+  <div class="hero-text">
+    <h1>JUST DO IT</h1>
+    <p>Nova coleção premium</p>
+    <button onclick="scrollToProducts()">Comprar Agora</button>
+  </div>
+</section>
 
-<div class="produtos" id="produtos"></div>
+<section id="produtos" class="produtos"></section>
 
 </body>
 </html>

@@ -1,99 +1,126 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial;
-  background: #f7f7f7;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
 }
 
-/* HEADER */
-header {
-  background: #111;
-  color: white;
-  padding: 15px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+body{
+  background:#f5f5f5;
 }
 
-header button {
-  background: white;
-  color: black;
-  border: none;
-  padding: 8px 15px;
-  cursor: pointer;
+/* NAVBAR */
+.navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+  background:rgba(0,0,0,0.85);
+  color:white;
+  backdrop-filter:blur(10px);
+}
+
+.logo{
+  font-weight:700;
+  letter-spacing:2px;
+}
+
+.navbar button{
+  background:white;
+  border:none;
+  padding:8px 15px;
+  cursor:pointer;
 }
 
 /* HERO */
-.hero {
-  background: linear-gradient(to right, #000, #333);
-  color: white;
-  padding: 60px 30px;
-  text-align: center;
+.hero{
+  height:100vh;
+  background:url("https://images.unsplash.com/photo-1542291026-7eec264c27ff") center/cover no-repeat;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
 }
 
-.hero h1 {
-  font-size: 40px;
+.hero-text{
+  text-align:center;
+}
+
+.hero-text h1{
+  font-size:60px;
+}
+
+.hero-text button{
+  margin-top:20px;
+  padding:12px 30px;
+  border:none;
+  background:white;
+  cursor:pointer;
 }
 
 /* PRODUTOS */
-.produtos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
-  gap: 25px;
-  padding: 30px;
+.produtos{
+  padding:120px 40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
 }
 
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  transition: 0.3s;
+.card{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  transition:0.3s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.card:hover{
+  transform:translateY(-10px);
 }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
+.card img{
+  width:100%;
+  height:250px;
+  object-fit:cover;
 }
 
-.card h3 {
-  margin: 10px 0 5px;
+.card-body{
+  padding:15px;
 }
 
-.card p {
-  font-weight: bold;
+.price{
+  font-weight:700;
+  margin:10px 0;
 }
 
-/* BOTÃO */
-.btn {
-  background: black;
-  color: white;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  cursor: pointer;
-  margin-top: 10px;
+/* BOTÕES */
+.btn{
+  width:100%;
+  padding:12px;
+  background:black;
+  color:white;
+  border:none;
+  cursor:pointer;
 }
 
 /* CARRINHO */
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
+.container{
+  margin-top:100px;
+  padding:20px;
 }
 
 /* CHECKOUT */
-.checkout {
-  max-width: 400px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
+.checkout{
+  max-width:400px;
+  margin:120px auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
 }
 
-textarea {
-  width: 100%;
-  height: 80px;
+textarea{
+  width:100%;
+  height:80px;
 }
