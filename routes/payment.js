@@ -4,8 +4,7 @@ router.post("/pix", async (req, res) => {
       body: {
         transaction_amount: Number(req.body.total),
         payment_method_id: "pix",
-        payer: { email: req.body.email },
-        notification_url: process.env.BASE_URL + "/payment/webhook"
+        payer: { email: req.body.email }
       }
     });
 
@@ -15,9 +14,8 @@ router.post("/pix", async (req, res) => {
     });
 
   } catch (err) {
-    console.log("ERRO PIX:", err);
+    console.log("ERRO PIX REAL:", err);
 
-    // 🔥 NUNCA mais usar .send()
     return res.status(500).json({
       erro: "Erro PIX",
       detalhe: err.message
