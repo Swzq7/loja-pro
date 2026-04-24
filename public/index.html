@@ -1,27 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>Minha Loja</title>
-  <script src="script.js"></script>
+<meta charset="UTF-8">
+<title>Minha Loja</title>
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+header {
+  background: black;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+#cartPanel {
+  position: fixed;
+  right: -300px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  padding: 15px;
+  transition: 0.3s;
+}
+
+#cartPanel.open {
+  right: 0;
+}
+
+</style>
+
+<script src="script.js" defer></script>
 </head>
+
 <body>
 
-<h1>Minha Loja</h1>
+<header>
+  <h2>Minha Loja</h2>
+  <button onclick="toggleCart()">Carrinho 🛒</button>
+</header>
 
-<!-- PRODUTOS -->
-<div id="produtos"></div>
+<div class="produtos" id="produtos"></div>
 
-<hr>
-
-<!-- CARRINHO -->
-<h2>Carrinho</h2>
-<div id="cart"></div>
-
-<button onclick="pagarPix()">Pagar com PIX</button>
-
-<!-- PIX -->
-<div id="pix"></div>
+<div id="cartPanel">
+  <h3>Carrinho</h3>
+  <div id="cart"></div>
+  <button onclick="pagarPix()">Pagar com PIX</button>
+  <div id="pix"></div>
+</div>
 
 </body>
 </html>
