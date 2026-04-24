@@ -1,0 +1,11 @@
+<h1>Admin</h1>
+
+<button onclick="ver()">Ver pedidos</button>
+
+<script>
+async function ver() {
+  const res = await fetch("/orders");
+  const data = await res.json();
+  console.log(data);
+}
+</script>

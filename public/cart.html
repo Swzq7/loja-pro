@@ -1,0 +1,12 @@
+<h1>Carrinho</h1>
+<button onclick="pedido()">Criar pedido</button>
+
+<script>
+function pedido() {
+  fetch("/orders", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ total: 100 })
+  });
+}
+</script>
