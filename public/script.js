@@ -3,35 +3,31 @@ const API = "https://loja-backend-jmci.onrender.com";
 let carrinho = JSON.parse(localStorage.getItem("cart")) || [];
 
 // ================= NAV =================
-function goCart() {
-  window.location.href = "cart.html";
-}
-
-function goHome() {
-  window.location.href = "index.html";
-}
-
-function goCheckout() {
-  window.location.href = "checkout.html";
-}
+function goCart(){ location.href="cart.html"; }
+function goHome(){ location.href="index.html"; }
+function goCheckout(){ location.href="checkout.html"; }
 
 // ================= PRODUTOS =================
 const produtos = [
-  {nome:"Tênis Nike", preco:199, imagem:"https://via.placeholder.com/200"},
-  {nome:"Camisa", preco:99, imagem:"https://via.placeholder.com/200"}
+  {nome:"Tênis Nike", preco:199, imagem:"https://via.placeholder.com/300"},
+  {nome:"Camisa Premium", preco:129, imagem:"https://via.placeholder.com/300"},
+  {nome:"Moletom", preco:249, imagem:"https://via.placeholder.com/300"}
 ];
 
-function renderProdutos() {
+function renderProdutos(){
   const div = document.getElementById("produtos");
-  if (!div) return;
+  if(!div) return;
 
-  produtos.forEach(p => {
+  produtos.forEach((p,i)=>{
     div.innerHTML += `
       <div class="card">
         <img src="${p.imagem}">
         <h3>${p.nome}</h3>
         <p>R$ ${p.preco}</p>
-        <button class="btn" onclick='addToCart(${JSON.stringify(p)})'>
+
+        <input type="number" id="qtd-${i}" value="1" min="1">
+
+        <button class="btn" onclick="addToCart(${i})">
           Comprar
         </button>
       </div>
@@ -40,53 +36,63 @@ function renderProdutos() {
 }
 
 // ================= CARRINHO =================
-function addToCart(p) {
-  carrinho.push(p);
+function addToCart(i){
+  const qtd = parseInt(document.getElementById(`qtd-${i}`).value);
+
+  carrinho.push({...produtos[i], qtd});
   localStorage.setItem("cart", JSON.stringify(carrinho));
+
   alert("Adicionado ao carrinho");
 }
 
-function renderCart() {
+function renderCart(){
   const div = document.getElementById("cart");
-  if (!div) return;
+  if(!div) return;
 
   let total = 0;
-  div.innerHTML = "";
+  div.innerHTML="";
 
-  carrinho.forEach(p => {
-    total += p.preco;
-    div.innerHTML += `<p>${p.nome} - R$ ${p.preco}</p>`;
+  carrinho.forEach(p=>{
+    total += p.preco * p.qtd;
+
+    div.innerHTML += `
+      <p>${p.nome} (x${p.qtd}) - R$ ${p.preco * p.qtd}</p>
+    `;
   });
 
   div.innerHTML += `<h3>Total: R$ ${total}</h3>`;
 }
 
 // ================= PIX =================
-async function pagarPix() {
-  const total = carrinho.reduce((a,b)=>a+b.preco,0);
+async function pagarPix(){
+  const total = carrinho.reduce((t,p)=>t+(p.preco*p.qtd),0);
+  document.getElementById("total").innerText="R$ "+total;
 
-  document.getElementById("total").innerText = "R$ " + total;
-
-  const res = await fetch(API + "/payment/pix", {
+  const res = await fetch(API+"/payment/pix",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({
-      total: total,
-      email:"teste@email.com"
-    })
+    body:JSON.stringify({total,email:"teste@email.com"})
   });
 
   const data = await res.json();
 
   document.getElementById("pix").innerHTML = `
-    <h3>Escaneie o QR</h3>
     <img src="data:image/png;base64,${data.qr}" width="250"/>
-    <p>${data.copiaecola}</p>
+
+    <textarea id="pixCode">${data.copiaecola}</textarea>
+
+    <button onclick="copiarPix()">Copiar PIX</button>
   `;
 }
 
+function copiarPix(){
+  const text = document.getElementById("pixCode");
+  navigator.clipboard.writeText(text.value);
+  alert("Copiado!");
+}
+
 // ================= INIT =================
-window.onload = () => {
+window.onload=()=>{
   renderProdutos();
   renderCart();
 };
