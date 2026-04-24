@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Carrinho</title>
+<title>Pagamento</title>
 <link rel="stylesheet" href="style.css">
 <script src="script.js" defer></script>
 </head>
@@ -10,16 +10,18 @@
 <body>
 
 <header>
-  <h2>Carrinho</h2>
-  <button onclick="goHome()">Voltar</button>
+  <h2>Pagamento PIX</h2>
 </header>
 
-<div class="container">
-  <div id="cart"></div>
+<div class="checkout">
+  <h3>Total</h3>
+  <p id="total"></p>
 
-  <button class="btn" onclick="goCheckout()">
-    Finalizar Compra
+  <button class="btn" onclick="pagarPix()">
+    Gerar QR Code
   </button>
+
+  <div id="pix"></div>
 </div>
 
 </body>

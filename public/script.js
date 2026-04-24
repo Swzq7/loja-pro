@@ -2,47 +2,56 @@ const API = "https://loja-backend-jmci.onrender.com";
 
 let carrinho = JSON.parse(localStorage.getItem("cart")) || [];
 
-// abrir carrinho
-function toggleCart() {
-  document.getElementById("cartPanel").classList.toggle("open");
+// ================= NAV =================
+function goCart() {
+  window.location.href = "cart.html";
 }
 
-// produtos fake (pra garantir que funcione)
-const produtosFake = [
+function goHome() {
+  window.location.href = "index.html";
+}
+
+function goCheckout() {
+  window.location.href = "checkout.html";
+}
+
+// ================= PRODUTOS =================
+const produtos = [
   {nome:"Tênis Nike", preco:199, imagem:"https://via.placeholder.com/200"},
-  {nome:"Camisa", preco:99, imagem:"https://via.placeholder.com/200"},
-  {nome:"Boné", preco:59, imagem:"https://via.placeholder.com/200"}
+  {nome:"Camisa", preco:99, imagem:"https://via.placeholder.com/200"}
 ];
 
-// render produtos
 function renderProdutos() {
   const div = document.getElementById("produtos");
+  if (!div) return;
 
-  produtosFake.forEach(p => {
+  produtos.forEach(p => {
     div.innerHTML += `
       <div class="card">
-        <img src="${p.imagem}" width="100%">
+        <img src="${p.imagem}">
         <h3>${p.nome}</h3>
         <p>R$ ${p.preco}</p>
-        <button onclick='addToCart(${JSON.stringify(p)})'>Comprar</button>
+        <button class="btn" onclick='addToCart(${JSON.stringify(p)})'>
+          Comprar
+        </button>
       </div>
     `;
   });
 }
 
-// carrinho
+// ================= CARRINHO =================
 function addToCart(p) {
   carrinho.push(p);
   localStorage.setItem("cart", JSON.stringify(carrinho));
-  renderCart();
+  alert("Adicionado ao carrinho");
 }
 
-// render carrinho
 function renderCart() {
   const div = document.getElementById("cart");
-  div.innerHTML = "";
+  if (!div) return;
 
   let total = 0;
+  div.innerHTML = "";
 
   carrinho.forEach(p => {
     total += p.preco;
@@ -52,9 +61,11 @@ function renderCart() {
   div.innerHTML += `<h3>Total: R$ ${total}</h3>`;
 }
 
-// PIX
+// ================= PIX =================
 async function pagarPix() {
-  const total = carrinho.reduce((acc,p)=>acc+p.preco,0);
+  const total = carrinho.reduce((a,b)=>a+b.preco,0);
+
+  document.getElementById("total").innerText = "R$ " + total;
 
   const res = await fetch(API + "/payment/pix", {
     method:"POST",
@@ -68,12 +79,13 @@ async function pagarPix() {
   const data = await res.json();
 
   document.getElementById("pix").innerHTML = `
-    <img src="data:image/png;base64,${data.qr}" width="200"/>
+    <h3>Escaneie o QR</h3>
+    <img src="data:image/png;base64,${data.qr}" width="250"/>
     <p>${data.copiaecola}</p>
   `;
 }
 
-// iniciar
+// ================= INIT =================
 window.onload = () => {
   renderProdutos();
   renderCart();
