@@ -12,52 +12,29 @@ body{
 /* NAVBAR */
 .navbar{
   position:fixed;
-  top:0;
   width:100%;
+  top:0;
   display:flex;
   justify-content:space-between;
   padding:20px 40px;
-  background:rgba(0,0,0,0.85);
+  background:rgba(0,0,0,0.9);
   color:white;
-  backdrop-filter:blur(10px);
-}
-
-.logo{
-  font-weight:700;
-  letter-spacing:2px;
-}
-
-.navbar button{
-  background:white;
-  border:none;
-  padding:8px 15px;
-  cursor:pointer;
+  z-index:10;
 }
 
 /* HERO */
 .hero{
   height:100vh;
-  background:url("https://images.unsplash.com/photo-1542291026-7eec264c27ff") center/cover no-repeat;
+  background:url("https://images.unsplash.com/photo-1542291026-7eec264c27ff") center/cover;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   color:white;
-}
-
-.hero-text{
   text-align:center;
 }
 
-.hero-text h1{
+.hero h1{
   font-size:60px;
-}
-
-.hero-text button{
-  margin-top:20px;
-  padding:12px 30px;
-  border:none;
-  background:white;
-  cursor:pointer;
 }
 
 /* PRODUTOS */
@@ -72,8 +49,8 @@ body{
   background:white;
   border-radius:15px;
   overflow:hidden;
-  transition:0.3s;
   box-shadow:0 10px 30px rgba(0,0,0,0.1);
+  transition:0.3s;
 }
 
 .card:hover{
@@ -91,11 +68,32 @@ body{
 }
 
 .price{
-  font-weight:700;
+  font-weight:bold;
   margin:10px 0;
 }
 
-/* BOTÕES */
+/* QUANTIDADE */
+.qtd{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:10px 0;
+}
+
+.qtd button{
+  width:30px;
+  height:30px;
+  border:none;
+  background:black;
+  color:white;
+  cursor:pointer;
+}
+
+.qtd span{
+  font-weight:bold;
+}
+
+/* BOTÃO */
 .btn{
   width:100%;
   padding:12px;
