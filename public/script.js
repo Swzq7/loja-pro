@@ -1,9 +1,8 @@
 const API = "https://loja-backend-jmci.onrender.com";
 
-// ================= CARRINHO =================
 let carrinho = JSON.parse(localStorage.getItem("cart")) || [];
 
-// normaliza
+// NORMALIZA
 carrinho = carrinho.map(p => ({
   nome: p.nome,
   preco: Number(p.preco) || 0,
@@ -12,11 +11,6 @@ carrinho = carrinho.map(p => ({
 }));
 
 localStorage.setItem("cart", JSON.stringify(carrinho));
-
-// ================= NAV =================
-function goCart(){ location.href="cart.html"; }
-function goHome(){ location.href="index.html"; }
-function goCheckout(){ location.href="checkout.html"; }
 
 // ================= PRODUTOS =================
 const produtos = [
@@ -29,7 +23,7 @@ function renderProdutos(){
   const div = document.getElementById("produtos");
   if(!div) return;
 
-  div.innerHTML = "";
+  div.innerHTML="";
 
   produtos.forEach((p,i)=>{
     div.innerHTML += `
@@ -37,13 +31,7 @@ function renderProdutos(){
         <img src="${p.imagem}">
         <div class="card-body">
           <h3>${p.nome}</h3>
-          <div class="price">R$ ${p.preco}</div>
-
-          <div class="qtd">
-            <button onclick="diminuir(${i})">-</button>
-            <span id="qtd-${i}">1</span>
-            <button onclick="aumentar(${i})">+</button>
-          </div>
+          <p>R$ ${p.preco}</p>
 
           <button class="btn" onclick="addToCart(${i})">
             Comprar
@@ -54,75 +42,55 @@ function renderProdutos(){
   });
 }
 
-// ================= QUANTIDADE =================
-function aumentar(i){
-  let el = document.getElementById(`qtd-${i}`);
-  el.innerText = Number(el.innerText) + 1;
-}
-
-function diminuir(i){
-  let el = document.getElementById(`qtd-${i}`);
-  let val = Number(el.innerText);
-  if(val > 1) el.innerText = val - 1;
-}
-
 // ================= CARRINHO =================
 function addToCart(i){
-  const qtd = Number(document.getElementById(`qtd-${i}`).innerText);
-
-  carrinho.push({...produtos[i], qtd});
+  carrinho.push({...produtos[i], qtd:1});
   localStorage.setItem("cart", JSON.stringify(carrinho));
-
-  alert("Adicionado ao carrinho!");
+  updateCart();
 }
 
-function renderCart(){
-  const div = document.getElementById("cart");
+function toggleCart(){
+  document.getElementById("cartSidebar").classList.toggle("active");
+}
+
+function updateCart(){
+  const div = document.getElementById("cartItems");
+  const totalEl = document.getElementById("cartTotal");
+  const count = document.getElementById("cart-count");
+
   if(!div) return;
 
+  div.innerHTML="";
   let total = 0;
-  div.innerHTML = "";
 
   carrinho.forEach((p,i)=>{
     total += p.preco * p.qtd;
 
     div.innerHTML += `
-      <p>${p.nome} x${p.qtd} - R$ ${p.preco * p.qtd}</p>
+      <div>
+        <p>${p.nome} x${p.qtd}</p>
+        <button onclick="removeItem(${i})">Remover</button>
+      </div>
     `;
   });
 
-  div.innerHTML += `<h3>Total: R$ ${total}</h3>`;
+  totalEl.innerText = "Total: R$ " + total;
+  count.innerText = carrinho.length;
 }
 
-// ================= PIX =================
-async function pagarPix(){
-  const total = carrinho.reduce((t,p)=>t+(p.preco*p.qtd),0);
-
-  document.getElementById("total").innerText = "R$ " + total;
-
-  const res = await fetch(API+"/payment/pix",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({total,email:"teste@email.com"})
-  });
-
-  const data = await res.json();
-
-  document.getElementById("pix").innerHTML = `
-    <img src="data:image/png;base64,${data.qr}" width="250"/>
-    <textarea id="pixCode">${data.copiaecola}</textarea>
-    <button onclick="copiarPix()">Copiar PIX</button>
-  `;
+function removeItem(i){
+  carrinho.splice(i,1);
+  localStorage.setItem("cart", JSON.stringify(carrinho));
+  updateCart();
 }
 
-function copiarPix(){
-  const text = document.getElementById("pixCode");
-  navigator.clipboard.writeText(text.value);
-  alert("Copiado!");
+// ================= CHECKOUT =================
+function goCheckout(){
+  window.location.href = "checkout.html";
 }
 
 // ================= INIT =================
-window.onload=()=>{
+window.onload = ()=>{
   renderProdutos();
-  renderCart();
+  updateCart();
 };

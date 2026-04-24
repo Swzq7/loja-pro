@@ -12,18 +12,31 @@
 <body>
 
 <header class="navbar">
-  <h2 class="logo">SWZQ</h2>
-  <button onclick="goCart()">Carrinho 🛒</button>
+  <h2>SWZQ</h2>
 </header>
 
+<!-- BOTÃO FLUTUANTE -->
+<div class="cart-btn" onclick="toggleCart()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<!-- CARRINHO LATERAL -->
+<div id="cartSidebar" class="cart-sidebar">
+  <h3>Seu Carrinho</h3>
+  <div id="cartItems"></div>
+  <h4 id="cartTotal"></h4>
+
+  <button onclick="goCheckout()" class="btn">
+    Finalizar Compra
+  </button>
+</div>
+
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-text">
-    <h1>JUST DO IT</h1>
-    <p>Nova coleção premium</p>
-    <button onclick="scrollToProducts()">Comprar Agora</button>
-  </div>
+  <h1>JUST DO IT</h1>
 </section>
 
+<!-- PRODUTOS -->
 <section id="produtos" class="produtos"></section>
 
 </body>
