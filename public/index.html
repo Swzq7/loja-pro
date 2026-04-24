@@ -1,26 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Minha Loja</title>
+  <script src="script.js"></script>
+</head>
+<body>
+
 <h1>Minha Loja</h1>
 
-<button onclick="pagar()">Pagar com PIX</button>
+<!-- PRODUTOS -->
+<div id="produtos"></div>
 
+<hr>
+
+<!-- CARRINHO -->
+<h2>Carrinho</h2>
+<div id="cart"></div>
+
+<button onclick="pagarPix()">Pagar com PIX</button>
+
+<!-- PIX -->
 <div id="pix"></div>
 
-<script>
-async function pagar() {
-  const res = await fetch("/payment/pix", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({
-      total: 100,
-      email: "teste@email.com"
-    })
-  });
-
-  const data = await res.json();
-
-  document.getElementById("pix").innerHTML = `
-    <h2>Escaneie o QR Code</h2>
-    <img src="data:image/png;base64,${data.qr}" />
-    <p>${data.copiaecola}</p>
-  `;
-}
-</script>
+</body>
+</html>
